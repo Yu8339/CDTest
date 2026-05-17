@@ -26,16 +26,23 @@ jobs:
 
             - name: 步驟 5 - 執行單元測試 (Test)
               run: dotnet test ${{ env.Sln }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
-
-            - name: 步驟 6 - 發行專案 (Publish)
-              # 指定只 publish Web 專案，並輸出到 publish 資料夾
-              run: dotnet publish CDTest/CDTest.csproj -c ${{ env.Configuration }} -o ./publish
-
-            - name: 步驟 7 - 上傳成品 (Upload Artifact)
-              uses: actions/upload-artifact@v4
+        
+            - name: 步驟 6 - 登入 GitHub 容器註冊表 (GHCR)
+              uses: docker/login-action@v3
               with:
-                name: CDTest # 成品的名稱
-                path: ./publish # 要上傳的資料夾路徑
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: 步驟 7 - 打包並推送映像檔 (Build and Push Image)
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                file: ./Dockerfile
+                push: true              
+                tags: |
+                  ghcr.io/${{ github.repository }}/web-app:latest
+                  ghcr.io/${{ github.repository }}/web-app:${{ github.run_number }}
     # CD:
     #     needs: CI
     #     runs-on: ubuntu-latest
