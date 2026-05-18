@@ -40,19 +40,18 @@ jobs:
                 context: .
                 file: ./Dockerfile
                 push: true  
-                tags: ghcr.io/royhung870323/cdtest/test:latest
+                # tags: ghcr.io/royhung870323/cdtest/test:latest
+                tags: ghcr.io/${{ github.repository }}:latest
                 # tags: |
                 #   ghcr.io/royhung870323/cdtest/test:latest
                 #   ghcr.io/royhung870323/cdtest/test:${{ github.run_number }}
-    CD:
-        needs: CI # 確保 CI 成功、Image 推上去倉庫了，才執行部署
-        runs-on: ubuntu-latest
-        steps:
-            - name: 步驟 1 - 觸發 Render 自動部署
-              # 使用 Linux 內建的 curl 指令去打 Render 的部署網址
-              run: curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
-              # run: |
-              #   curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
+    # CD:
+    #     needs: CI # 確保 CI 成功、Image 推上去倉庫了，才執行部署
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: 步驟 1 - 觸發 Render 自動部署
+    #           # 使用 Linux 內建的 curl 指令去打 Render 的部署網址
+    #           run: curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
     
         
         
