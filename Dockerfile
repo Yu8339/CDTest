@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # 複製專案檔並進行還原
-COPY ["CDTest/CDTest.csproj", "CDTest/"]
-COPY ["CDTestLib/CDTestLib.csproj", "CDTestLib/"]
+COPY CDTest/CDTest.csproj CDTest/
+COPY CDTest/CDTest.csproj CDTestLib/
 RUN dotnet restore "CDTest/CDTest.csproj"
 
 # 複製所有程式碼並發布
