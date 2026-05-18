@@ -50,8 +50,9 @@ jobs:
         steps:
             - name: 步驟 1 - 觸發 Render 自動部署
               # 使用 Linux 內建的 curl 指令去打 Render 的部署網址
-              run: |
-                curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
+              run: curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
+              # run: |
+              #   curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
     
         
         
