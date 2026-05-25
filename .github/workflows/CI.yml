@@ -80,8 +80,8 @@ jobs:
                 file: ./Dockerfile
                 push: true  
                 tags: |
-                      ghcr.io/yu8339/cdtest/test:latest
-                      ghcr.io/yu8339/cdtest/test:${{ github.run_number }}
+                      ghcr.io/yu8339/cdtest/test1:latest
+                      ghcr.io/yu8339/cdtest/test1:${{ github.run_number }}
     # CD:
     #     needs: CI # 確保 CI 成功、Image 推上去倉庫了，才執行部署
     #     runs-on: ubuntu-latest
