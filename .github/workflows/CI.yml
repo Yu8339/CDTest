@@ -79,8 +79,6 @@ jobs:
                 context: .
                 file: ./Dockerfile
                 push: true  
-                # tags: ghcr.io/royhung870323/cdtest/test:latest
-
                 tags: |
                       ghcr.io/yu8339/cdtest/test:latest
                       ghcr.io/yu8339/cdtest/test:${{ github.run_number }}
