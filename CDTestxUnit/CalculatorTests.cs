@@ -13,7 +13,7 @@ namespace CDTestxUnit
         public void Test_Add()
         {
             var calc = new Calculator();
-            Assert.Equal(4, calc.Add(1, 2));
+            Assert.Equal(4, calc.Add(1, 3));
         }
     }
 }
