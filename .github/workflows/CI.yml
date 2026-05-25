@@ -27,12 +27,12 @@ jobs:
                 dotnet-version: 8.0.x
 
 
-            # - name: 步驟 3-1 - 設定 NuGet 套件快取機制
-            #   uses: actions/cache@v4
-            #   with:
-            #     path: ~/.nuget/packages 
-            #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.sln') }}
-            #     restore-keys: ${{ runner.os }}-nuget-
+            - name: 步驟 3-1 - 設定 nuget 套件快取機制
+              uses: actions/cache@v4
+              with:
+                path: ~/.nuget/packages 
+                key: ${{ runner.os }}-nuget-${{ hashfiles('**/*.csproj', '**/*.sln') }}
+                restore-keys: ${{ runner.os }}-nuget-
 
             - name: 步驟 3-2 - 還原依賴 (Restore)
               run: dotnet restore ${{ env.Sln }}
@@ -49,12 +49,12 @@ jobs:
             #     dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
             #     dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
         
-            # - name: 步驟 5-1 - 設定 Playwright 瀏覽器快取
-            #   uses: actions/cache@v4
-            #   id: playwright-cache   # 給它一個id，等一下要用來做判斷
-            #   with:
-            #     path: ~/.cache/ms-playwright  
-            #     key: ${{ runner.os }}-playwright-${{ hashFiles('**/playwright.ps1') }}
+            - name: 步驟 5-1 - 設定 Playwright 瀏覽器快取
+              uses: actions/cache@v4
+              id: playwright-cache   # 給它一個id，等一下要用來做判斷
+              with:
+                path: ~/.cache/ms-playwright  
+                key: ${{ runner.os }}-playwright-${{ hashFiles('**/playwright.ps1') }}
 
             - name: 步驟 5-2 - 安裝 Playwright 瀏覽器元件
               if: steps.playwright-cache.outputs.cache-hit != 'true'
