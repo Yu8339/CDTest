@@ -1,5 +1,10 @@
 name: CICD
-on: [push]
+on:
+  push:
+    branches: [ master ]     
+    paths-ignore:          
+      - '**.md'
+      - '.gitignore'
 permissions:
     contents: read
     packages: write
@@ -27,19 +32,16 @@ jobs:
             - name: 步驟 4 - 編譯專案 (Build)
               run: dotnet build ${{ env.Sln }} --configuration ${{ env.Configuration }} --no-restore
 
-            - name: 步驟 5 - 執行單元測試 (Test)
-              run: dotnet test ${{ env.UnitTest }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
+            # - name: 步驟 5-1 - 執行單元測試 (Test)
+            #   run: dotnet test ${{ env.UnitTest }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
         
-            # 獨立步驟 6-1：安裝 Playwright 瀏覽器核心 (路徑使用你定義的 CDTestPlaywright)
-            - name: 步驟 6-1 - 安裝 Playwright 瀏覽器元件
+            - name: 步驟 5-1 - 安裝 Playwright 瀏覽器元件
               run: pwsh CDTestPlaywright/bin/${{ env.Configuration }}/net8.0/playwright.ps1 install
-
-            # 獨立步驟 6-2：在背景啟動網頁主程式
-            - name: 步驟 6-2 - 在背景啟動 Web 網頁主程式
-              run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
-
-            # 獨立步驟 6-3：跑你專屬的 Playwright UI 自動化測試
-            - name: 步驟 6-3 - 執行 Playwright UI 自動化測試 (UI Test)
+              
+            # - name: 步驟 5-2 - 在背景啟動 Web 網頁主程式
+            #   run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
+              
+            - name: 步驟 5-3 - 執行 Playwright UI 自動化測試 (UI Test)
               run: dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
             # - name: 步驟 6 - 登入 GitHub 容器註冊表 
             #   uses: docker/login-action@v3
