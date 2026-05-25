@@ -1,11 +1,11 @@
 name: CICD
-on: [push]
-# on:
-#   push:
-#     branches: [ master ]     
-#     paths-ignore:          
-#       - '**.md'
-#       - '.gitignore'
+# on: [push]
+on:
+  push:
+    branches: [ master ]     
+    paths-ignore:          
+      - '**.md'
+      - '.gitignore'
 permissions:
     contents: read
     packages: write
