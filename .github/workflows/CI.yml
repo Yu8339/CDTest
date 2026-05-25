@@ -38,8 +38,8 @@ jobs:
             - name: 步驟 5-1 - 安裝 Playwright 瀏覽器元件
               run: pwsh CDTestPlaywright/bin/${{ env.Configuration }}/net8.0/playwright.ps1 install
               
-            # - name: 步驟 5-2 - 在背景啟動 Web 網頁主程式
-            #   run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
+            - name: 步驟 5-2 - 在背景啟動 Web 網頁主程式
+              run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
               
             - name: 步驟 5-3 - 執行 Playwright UI 自動化測試 (UI Test)
               run: dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
