@@ -26,7 +26,7 @@ jobs:
               with:
                 dotnet-version: 8.0.x
 
-            - name: 步驟 2.5 - 設定 NuGet 套件快取機制
+            - name: 步驟 3-1 - 設定 NuGet 套件快取機制
               uses: actions/cache@v4
               with:
                 path: ~/.nuget/packages
@@ -34,7 +34,7 @@ jobs:
                 restore-keys: |
                   ${{ runner.os }}-nuget-
 
-            - name: 步驟 3 - 還原依賴 (Restore)
+            - name: 步驟 3-2 - 還原依賴 (Restore)
               run: dotnet restore ${{ env.Sln }}
 
             - name: 步驟 4 - 編譯專案 (Build)
@@ -49,13 +49,20 @@ jobs:
             #     dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
             #     dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
         
-            - name: 步驟 5-1 - 安裝 Playwright 瀏覽器元件
+            - name: 步驟 5-1 - 設定 Playwright 瀏覽器快取
+              uses: actions/cache@v4
+              id: playwright-cache   # 核心關鍵：給它一個身分證字號，等一下要用來做判斷
+              with:
+                path: ~/.cache/ms-playwright  # Playwright 在 Linux 下載瀏覽器的預設老巢
+                key: ${{ runner.os }}-playwright-${{ hashFiles('**/playwright.ps1') }}
+
+            - name: 步驟 5-2 - 安裝 Playwright 瀏覽器元件
               run: pwsh CDTestPlaywright/bin/${{ env.Configuration }}/net8.0/playwright.ps1 install
 
-            - name: 步驟 5-2 - 在背景啟動 Web 網頁主程式
+            - name: 步驟 5-3 - 在背景啟動 Web 網頁主程式
               run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
               
-            - name: 步驟 5-3 - 執行 Playwright UI 自動化測試 (UI Test)
+            - name: 步驟 5-4 - 執行 Playwright UI 自動化測試 (UI Test)
               run: dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
             # - name: 步驟 6 - 登入 GitHub 容器註冊表 
             #   uses: docker/login-action@v3
