@@ -56,15 +56,15 @@ jobs:
             #     path: ~/.cache/ms-playwright  
             #     key: ${{ runner.os }}-playwright-${{ hashFiles('**/playwright.ps1') }}
 
-            # - name: 步驟 5-2 - 安裝 Playwright 瀏覽器元件
-            #   if: steps.playwright-cache.outputs.cache-hit != 'true'
-            #   run: pwsh CDTestPlaywright/bin/${{ env.Configuration }}/net8.0/playwright.ps1 install
+            - name: 步驟 5-2 - 安裝 Playwright 瀏覽器元件
+              if: steps.playwright-cache.outputs.cache-hit != 'true'
+              run: pwsh CDTestPlaywright/bin/${{ env.Configuration }}/net8.0/playwright.ps1 install
 
-            # - name: 步驟 5-3 - 在背景啟動 Web 網頁主程式
-            #   run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
+            - name: 步驟 5-3 - 在背景啟動 Web 網頁主程式
+              run: dotnet run --project ${{ env.WebProject }} --configuration ${{ env.Configuration }} --no-build --urls "http://localhost:5114" &
               
-            # - name: 步驟 5-4 - 執行 Playwright UI 自動化測試 (UI Test)
-            #   run: dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
+            - name: 步驟 5-4 - 執行 Playwright UI 自動化測試 (UI Test)
+              run: dotnet test ${{ env.Playwright }} --configuration ${{ env.Configuration }} --no-build --verbosity normal
 
             # - name: 步驟 6 - 登入 GitHub 容器註冊表 
             #   uses: docker/login-action@v3
