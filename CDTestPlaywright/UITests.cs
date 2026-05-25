@@ -39,7 +39,7 @@ namespace CDTestPlaywright
             // 步驟 4：驗證結果是否正確
             // 尋找 class 為 text-primary 的 h2 標籤，確認裡面的文字是「計算結果123：46」
             await Expect(Page.Locator("h2.text-primary"))
-                .ToHaveTextAsync("計算結果123：3");
+                .ToHaveTextAsync("計算結果123：4");
         }
     }
 
